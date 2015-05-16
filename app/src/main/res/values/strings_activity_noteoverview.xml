@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="noteoverview_title">Open Notes</string>
+    <string name="noteoverview_new_note">New Note</string>
+</resources>

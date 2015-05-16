@@ -1,3 +1,4 @@
 <resources>
-    <string name="app_name">Noteapp</string>
+    <string name="app_name">NoteApp</string>
+    <string name="logout">Logout</string>
 </resources>
