@@ -2,4 +2,8 @@
 <resources>
     <style name="AppTheme" parent="android:Theme.Material.Light.DarkActionBar">
     </style>
+
+    <style name="AppTheme.TextEdit" parent="android:TextAppearance.Material.Widget.EditText">
+        <item name="android:textSize">20sp</item>
+    </style>
 </resources>

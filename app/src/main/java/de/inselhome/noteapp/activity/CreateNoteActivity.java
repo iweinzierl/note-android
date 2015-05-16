@@ -42,6 +42,16 @@ public class CreateNoteActivity extends Activity {
                 saveNote();
             }
         });
+
+        Button cancel = (Button) findViewById(R.id.cancel);
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                LOGGER.debug("Clicked to 'cancel' note");
+                setResult(RESULT_CANCELED);
+                finish();
+            }
+        });
     }
 
     private void saveNote() {

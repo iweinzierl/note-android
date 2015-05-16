@@ -9,7 +9,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+
 import com.google.common.base.Optional;
+
 import de.inselhome.android.logging.AndroidLoggerFactory;
 import de.inselhome.android.utils.list.SwipeDismissListViewTouchListener;
 import de.inselhome.noteapp.NoteApp;
@@ -23,6 +25,7 @@ import de.inselhome.noteapp.task.LoadNotesTask;
 import de.inselhome.noteapp.task.SolveNoteTask;
 import de.inselhome.noteapp.util.LogoutHandler;
 import de.inselhome.noteapp.util.NoteFilter;
+
 import org.slf4j.Logger;
 
 import java.util.ArrayList;
@@ -164,9 +167,12 @@ public class NoteOverview extends Activity {
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode) {
             case REQUEST_NEW_NOTE:
-                final Note note = new CreateNoteIntent(data).getNote();
-                if (note != null) {
-                    ((NoteAdapter) noteList.getAdapter()).addItem(note);
+                switch (resultCode) {
+                    case RESULT_OK:
+                        final Note note = new CreateNoteIntent(data).getNote();
+                        if (note != null) {
+                            ((NoteAdapter) noteList.getAdapter()).addItem(note);
+                        }
                 }
         }
     }

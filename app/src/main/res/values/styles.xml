@@ -34,6 +34,17 @@
         <item name="android:layout_margin">10dp</item>
     </style>
 
+    <style name="AppTheme.ActionBarFooter">
+        <item name="android:background">@color/background_material_dark</item>
+    </style>
+
+    <style name="AppTheme.ActionBarFooter.Item">
+        <item name="android:background">@drawable/footer_action_item</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_weight">1</item>
+    </style>
+
     <style name="AppTheme.Label">
         <item name="android:textSize">20sp</item>
     </style>
