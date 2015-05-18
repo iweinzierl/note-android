@@ -25,6 +25,17 @@
             android:name=".activity.CreateNoteActivity"
             android:label="@string/createnote_title" />
 
+        <receiver android:name=".widget.overview.OverviewWidgetProvider">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/overview_widget_info" />
+        </receiver>
+
+        <service android:name=".widget.overview.OverviewWidgetUpdateService"/>
+
     </application>
 
     <!-- To auto-complete the username text field in the login form with the user's emails -->
