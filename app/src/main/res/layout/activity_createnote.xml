@@ -5,24 +5,31 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/footer"
-        android:layout_alignParentStart="false"
-        android:layout_alignParentTop="true">
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="fill_parent"
+        android:layout_above="@+id/footer">
 
-        <EditText
-            android:id="@+id/description"
-            style="@style/AppTheme.TextEdit"
+        <LinearLayout
+            android:orientation="vertical"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:hint="@string/createnote_hint_note"
-            android:minLines="1"
-            android:padding="5dp" />
+            android:layout_height="wrap_content">
 
-    </LinearLayout>
+            <EditText
+                android:id="@+id/description"
+                style="@style/AppTheme.TextEdit"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:textColor="@color/black"
+                android:textColorHint="@color/grey"
+                android:hint="@string/createnote_hint_note"
+                android:minLines="1"
+                android:padding="5dp" />
+
+        </LinearLayout>
+
+    </ScrollView>
 
     <LinearLayout
         android:id="@+id/footer"
@@ -34,15 +41,26 @@
         <Button
             android:id="@+id/cancel"
             style="@style/AppTheme.ActionBarFooter.Item"
-            android:drawableStart="@drawable/abc_ic_clear_mtrl_alpha"
+            android:layout_width="fill_parent"
+            android:layout_height="match_parent"
+            android:drawableStart="@drawable/delete"
             android:paddingEnd="40dp"
             android:paddingStart="40dp"
             android:text="@string/createnote_cancel" />
 
+        <View
+            android:layout_width="1dp"
+            android:layout_height="30dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="5dp"
+            android:background="@color/white" />
+
         <Button
             android:id="@+id/save"
             style="@style/AppTheme.ActionBarFooter.Item"
-            android:drawableStart="@drawable/abc_btn_check_to_on_mtrl_015"
+            android:layout_width="fill_parent"
+            android:layout_height="match_parent"
+            android:drawableStart="@drawable/check"
             android:paddingEnd="40dp"
             android:paddingStart="40dp"
             android:text="@string/createnote_save" />

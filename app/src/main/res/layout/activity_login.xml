@@ -36,6 +36,8 @@
                 android:layout_marginLeft="25dp"
                 android:layout_marginRight="25dp"
                 android:layout_marginTop="15dp"
+                android:textColor="@color/black"
+                android:textColorHint="@color/grey"
                 android:hint="@string/prompt_login"
                 android:inputType="textEmailAddress"
                 android:maxLines="1"
@@ -51,6 +53,8 @@
                 android:layout_marginLeft="25dp"
                 android:layout_marginRight="25dp"
                 android:layout_marginTop="15dp"
+                android:textColor="@color/black"
+                android:textColorHint="@color/grey"
                 android:hint="@string/prompt_password"
                 android:inputType="textPassword"
                 android:maxLines="1"
@@ -74,14 +78,14 @@
     <LinearLayout
         android:id="@+id/footer"
         style="@style/AppTheme.ActionBarFooter"
-        android:layout_width="match_parent"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true">
 
         <Button
             android:id="@+id/email_sign_in_button"
             style="@style/AppTheme.ActionBarFooter.Item"
-            android:layout_width="match_parent"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:text="@string/action_sign_in"
             android:textStyle="bold" />
