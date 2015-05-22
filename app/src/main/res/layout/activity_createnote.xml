@@ -20,9 +20,9 @@
                 style="@style/AppTheme.TextEdit"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="25dp"
+                android:layout_marginRight="25dp"
                 android:layout_marginTop="15dp"
-                android:textColor="@color/black"
-                android:textColorHint="@color/grey"
                 android:hint="@string/createnote_hint_note"
                 android:minLines="1"
                 android:padding="5dp" />
@@ -41,8 +41,6 @@
         <Button
             android:id="@+id/cancel"
             style="@style/AppTheme.ActionBarFooter.Item"
-            android:layout_width="fill_parent"
-            android:layout_height="match_parent"
             android:drawableStart="@drawable/delete"
             android:paddingEnd="40dp"
             android:paddingStart="40dp"
@@ -58,8 +56,6 @@
         <Button
             android:id="@+id/save"
             style="@style/AppTheme.ActionBarFooter.Item"
-            android:layout_width="fill_parent"
-            android:layout_height="match_parent"
             android:drawableStart="@drawable/check"
             android:paddingEnd="40dp"
             android:paddingStart="40dp"
