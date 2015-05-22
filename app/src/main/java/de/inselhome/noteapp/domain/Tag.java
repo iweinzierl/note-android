@@ -3,7 +3,7 @@ package de.inselhome.noteapp.domain;
 /**
  * @author iweinzierl
  */
-public class Tag {
+public class Tag implements HasName {
 
     private String name;
 
@@ -30,5 +30,10 @@ public class Tag {
     @Override
     public int hashCode() {
         return name.hashCode();
+    }
+
+    @Override
+    public String toString() {
+        return "#" + name;
     }
 }

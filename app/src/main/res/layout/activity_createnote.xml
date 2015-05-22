@@ -15,7 +15,7 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content">
 
-            <EditText
+            <AutoCompleteTextView
                 android:id="@+id/description"
                 style="@style/AppTheme.TextEdit"
                 android:layout_width="fill_parent"
@@ -25,6 +25,7 @@
                 android:layout_marginTop="15dp"
                 android:hint="@string/createnote_hint_note"
                 android:minLines="1"
+                android:completionThreshold="2"
                 android:padding="5dp" />
 
         </LinearLayout>

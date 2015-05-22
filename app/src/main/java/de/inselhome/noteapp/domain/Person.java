@@ -3,7 +3,7 @@ package de.inselhome.noteapp.domain;
 /**
  * @author iweinzierl
  */
-public class Person {
+public class Person implements HasName {
 
     private String name;
 
@@ -30,5 +30,10 @@ public class Person {
     @Override
     public int hashCode() {
         return name != null ? name.hashCode() : 0;
+    }
+
+    @Override
+    public String toString() {
+        return "@" + name;
     }
 }
