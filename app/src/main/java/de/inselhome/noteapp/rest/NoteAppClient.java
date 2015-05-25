@@ -20,5 +20,7 @@ public interface NoteAppClient {
 
     boolean solve(String noteId);
 
+    boolean open(String noteId);
+
     void delete(Note note);
 }

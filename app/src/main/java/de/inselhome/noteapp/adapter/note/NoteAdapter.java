@@ -59,6 +59,11 @@ public class NoteAdapter extends BaseAdapter {
         visibleNotes.add(note);
     }
 
+    public void addItems(final List<Note> notes) {
+        this.notes.addAll(notes);
+        visibleNotes.addAll(notes);
+    }
+
     @Override
     public Object getItem(final int position) {
         return visibleNotes.get(position);

@@ -118,6 +118,26 @@ public class NoteAppClientImpl implements NoteAppClient {
     }
 
     @Override
+    public boolean open(final String noteId) {
+        LOGGER.info("Open solved note '{}' in backend", noteId);
+        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+
+        try {
+            final URL url = withPath("/note/open/" + noteId);
+            final HttpEntity<String> httpEntity = new HttpEntity<>(httpHeaders);
+
+            restTemplate.exchange(url.toString(), HttpMethod.POST, httpEntity, Void.class);
+
+            LOGGER.debug("Successfully opened solved note '{}'", noteId);
+            return true;
+        } catch (Exception e) {
+            LOGGER.error("Error while opening solved note '{}'", e, noteId);
+        }
+
+        return false;
+    }
+
+    @Override
     public void delete(final Note note) {
     }
 

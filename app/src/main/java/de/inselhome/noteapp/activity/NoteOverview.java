@@ -32,6 +32,7 @@ import de.inselhome.noteapp.domain.Note;
 import de.inselhome.noteapp.intent.CreateNoteIntent;
 import de.inselhome.noteapp.rest.NoteAppClient;
 import de.inselhome.noteapp.task.LoadNotesTask;
+import de.inselhome.noteapp.task.OpenNoteTask;
 import de.inselhome.noteapp.task.SolveNoteTask;
 import de.inselhome.noteapp.util.LogoutHandler;
 import de.inselhome.noteapp.util.NoteFilter;
@@ -245,7 +246,16 @@ public class NoteOverview extends Activity {
         UiUtils.getGeneric(View.class, footer, R.id.undo).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // TODO undo delete
+                new OpenNoteTask(noteAppClient, new OpenNoteTask.Handler() {
+                    @Override
+                    public void onFinish(List<Note> successful, List<Note> failed) {
+                        LOGGER.info("Successfully opened {} solved notes", successful.size());
+                        // TODO display failure
+                        noteAdapter.addItems(successful);
+                        noteAdapter.notifyDataSetChanged();
+                    }
+                }).execute(toSolve.toArray(new Note[toSolve.size()]));
+
                 hideFooter();
                 timer.cancel();
             }
