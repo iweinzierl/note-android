@@ -20,6 +20,8 @@ import de.inselhome.noteapp.util.NoteFilter;
 import org.slf4j.Logger;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
 
@@ -46,7 +48,7 @@ public class NoteAdapter extends BaseAdapter {
         Preconditions.checkNotNull(notes);
         this.context = context;
         this.notes = new ArrayList<>(notes);
-        this.visibleNotes = new ArrayList<>(notes);
+        this.visibleNotes = newSortedList(notes);
     }
 
     @Override
@@ -57,11 +59,25 @@ public class NoteAdapter extends BaseAdapter {
     public void addItem(final Note note) {
         notes.add(note);
         visibleNotes.add(note);
+        Collections.sort(visibleNotes, new Comparator<Note>() {
+            @Override
+            public int compare(Note note, Note t1) {
+                return note.getCreation().compareTo(t1.getCreation());
+            }
+        });
+        notifyDataSetChanged();
     }
 
     public void addItems(final List<Note> notes) {
         this.notes.addAll(notes);
         visibleNotes.addAll(notes);
+        Collections.sort(visibleNotes, new Comparator<Note>() {
+            @Override
+            public int compare(Note note, Note t1) {
+                return note.getCreation().compareTo(t1.getCreation());
+            }
+        });
+        notifyDataSetChanged();
     }
 
     @Override
@@ -98,6 +114,18 @@ public class NoteAdapter extends BaseAdapter {
         UiUtils.setSafeText(viewHolder.creation, R.id.creation, note.getCreation().toString());
 
         return row;
+    }
+
+    private List<Note> newSortedList(final List<Note> notes) {
+        final ArrayList<Note> notesClone = new ArrayList<>(notes);
+        Collections.sort(notesClone, new Comparator<Note>() {
+            @Override
+            public int compare(Note a, Note b) {
+                return a.getCreation().compareTo(b.getCreation());
+            }
+        });
+
+        return notesClone;
     }
 
     private Spannable colorText(final String text) {
@@ -153,7 +181,10 @@ public class NoteAdapter extends BaseAdapter {
 
     public Note remove(final int pos) {
         visibleNotes.remove(pos);
-        return notes.remove(pos);
+        Note note = notes.remove(pos);
+
+        notifyDataSetChanged();
+        return note;
     }
 
     public void setFilter(final Set<NoteFilter> filter) {
