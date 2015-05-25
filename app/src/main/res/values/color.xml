@@ -4,4 +4,5 @@
     <color name="grey">#888</color>
     <color name="black">#000</color>
     <color name="drawer_background">@color/white</color>
+    <color name="footer_undo">#ff8800</color>
 </resources>

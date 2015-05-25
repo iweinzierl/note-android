@@ -2,4 +2,6 @@
 <resources>
     <string name="noteoverview_title">Open Notes</string>
     <string name="noteoverview_new_note">New Note</string>
+    <string name="noteoverview_footer_items_deleted">Items deleted</string>
+    <string name="noteoverview_footer_undo_delete">Undo delete</string>
 </resources>

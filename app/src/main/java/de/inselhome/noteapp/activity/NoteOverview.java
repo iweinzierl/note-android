@@ -3,6 +3,7 @@ package de.inselhome.noteapp.activity;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -12,7 +13,16 @@ import android.widget.ListView;
 
 import com.google.common.base.Optional;
 
+import org.slf4j.Logger;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 import de.inselhome.android.logging.AndroidLoggerFactory;
+import de.inselhome.android.utils.UiUtils;
 import de.inselhome.android.utils.list.SwipeDismissListViewTouchListener;
 import de.inselhome.noteapp.NoteApp;
 import de.inselhome.noteapp.R;
@@ -25,14 +35,6 @@ import de.inselhome.noteapp.task.LoadNotesTask;
 import de.inselhome.noteapp.task.SolveNoteTask;
 import de.inselhome.noteapp.util.LogoutHandler;
 import de.inselhome.noteapp.util.NoteFilter;
-
-import org.slf4j.Logger;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 
 /**
  * @author iweinzierl
@@ -84,6 +86,7 @@ public class NoteOverview extends Activity {
 
     private static final int REQUEST_NEW_NOTE = 100;
 
+    private View footer;
     private ListView tagFilterList;
     private ListView peopleFilterList;
     private ListView noteList;
@@ -96,6 +99,7 @@ public class NoteOverview extends Activity {
         tagFilterList = (ListView) findViewById(R.id.tagFilterList);
         peopleFilterList = (ListView) findViewById(R.id.peopleFilterList);
         noteList = (ListView) findViewById(R.id.noteList);
+        footer = findViewById(R.id.footer);
 
         final SwipeDismissListViewTouchListener dismissListener = new SwipeDismissListViewTouchListener(noteList, new SwipeDismissListViewTouchListener.DismissCallbacks() {
             @Override
@@ -112,6 +116,8 @@ public class NoteOverview extends Activity {
         final NoteFilterAdapter tagFilterAdapter = new NoteFilterAdapter(this);
         final NoteFilterAdapter peopleFilterAdapter = new NoteFilterAdapter(this);
         final NoteFilterManager noteFilterManager = new NoteFilterManager(tagFilterList, peopleFilterList, tagFilterAdapter, peopleFilterAdapter);
+
+        hideFooter();
 
         tagFilterList.setAdapter(tagFilterAdapter);
         tagFilterList.setOnItemClickListener(new FilterItemSelectionListener(noteFilterManager));
@@ -223,6 +229,35 @@ public class NoteOverview extends Activity {
                 // TODO display failure
             }
         }).execute(toSolve.toArray(new Note[toSolve.size()]));
+
+        showFooter();
+        final CountDownTimer timer = new CountDownTimer(10000, 1000) {
+            @Override
+            public void onTick(long l) {
+            }
+
+            @Override
+            public void onFinish() {
+                hideFooter();
+            }
+        }.start();
+
+        UiUtils.getGeneric(View.class, footer, R.id.undo).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // TODO undo delete
+                hideFooter();
+                timer.cancel();
+            }
+        });
+    }
+
+    private void showFooter() {
+        footer.setVisibility(View.VISIBLE);
+    }
+
+    private void hideFooter() {
+        footer.setVisibility(View.INVISIBLE);
     }
 
     private void removeNotesFromList(final int[] positions) {
