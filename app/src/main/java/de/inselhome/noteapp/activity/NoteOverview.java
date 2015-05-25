@@ -232,7 +232,7 @@ public class NoteOverview extends Activity {
         }).execute(toSolve.toArray(new Note[toSolve.size()]));
 
         showFooter();
-        final CountDownTimer timer = new CountDownTimer(10000, 1000) {
+        final CountDownTimer timer = new CountDownTimer(5000, 1000) {
             @Override
             public void onTick(long l) {
             }
