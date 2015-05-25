@@ -6,3 +6,4 @@
 /captures
 *\.iml
 app/*.iml
+app/local.properties

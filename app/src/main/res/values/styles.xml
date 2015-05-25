@@ -78,4 +78,15 @@
         <item name="android:textSize">14sp</item>
     </style>
 
+    <style name="AppTheme.Suggestion">
+        <item name="android:drawable">@drawable/suggestion_item</item>
+        <item name="android:paddingTop">5dp</item>
+        <item name="android:paddingBottom">5dp</item>
+        <item name="android:paddingLeft">2dp</item>
+    </style>
+
+    <style name="AppTheme.Suggestion.Item">
+        <item name="android:textSize">18sp</item>
+    </style>
+
 </resources>
