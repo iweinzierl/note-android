@@ -15,10 +15,12 @@ import com.google.common.collect.Collections2;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
 import de.inselhome.android.utils.UiUtils;
+import de.inselhome.android.utils.collection.NoDuplicatesList;
 import de.inselhome.noteapp.R;
 import de.inselhome.noteapp.domain.HasName;
 import de.inselhome.noteapp.domain.Note;
@@ -42,6 +44,14 @@ public class AutoCompleteAdapter implements ListAdapter, Filterable {
 
         @Override
         protected FilterResults performFiltering(final CharSequence charSequence) {
+            FilterResults results = new FilterResults();
+            results.count = 0;
+            results.values = Collections.EMPTY_LIST;
+
+            if (charSequence == null || charSequence.length() == 0) {
+                return results;
+            }
+
             Collection<HasName> filtered = Collections2.filter(hasNames, new Predicate<HasName>() {
                 @Override
                 public boolean apply(HasName input) {
@@ -49,7 +59,6 @@ public class AutoCompleteAdapter implements ListAdapter, Filterable {
                 }
             });
 
-            FilterResults results = new FilterResults();
             results.count = filtered.size();
             results.values = filtered;
 
@@ -58,7 +67,7 @@ public class AutoCompleteAdapter implements ListAdapter, Filterable {
 
         @Override
         protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
-           callback.onFilterResult((Collection<HasName>) filterResults.values);
+            callback.onFilterResult((Collection<HasName>) filterResults.values);
         }
     }
 
@@ -69,12 +78,11 @@ public class AutoCompleteAdapter implements ListAdapter, Filterable {
     private Context context;
     private List<HasName> total;
     private List<HasName> data;
-    private String text;
 
     public AutoCompleteAdapter(final Context context) {
         this.context = context;
         this.total = new ArrayList<>();
-        this.data = new ArrayList<>();
+        this.data = new NoDuplicatesList<>();
     }
 
     @Override
@@ -111,12 +119,12 @@ public class AutoCompleteAdapter implements ListAdapter, Filterable {
 
     @Override
     public int getCount() {
-        return data == null ? 0 : total.size();
+        return data == null ? 0 : data.size();
     }
 
     @Override
     public Object getItem(int i) {
-        return data == null ? null : total.get(i);
+        return data == null ? null : data.get(i);
     }
 
     @Override
@@ -126,7 +134,7 @@ public class AutoCompleteAdapter implements ListAdapter, Filterable {
 
     @Override
     public boolean hasStableIds() {
-        return true;
+        return false;
     }
 
     @Override
@@ -140,7 +148,7 @@ public class AutoCompleteAdapter implements ListAdapter, Filterable {
         final HasName hasName = (HasName) getItem(position);
         final ViewHolder viewHolder = (ViewHolder) row.getTag();
 
-        UiUtils.setSafeText(viewHolder.text, R.id.value, hasName.getName());
+        UiUtils.setSafeText(viewHolder.text, R.id.value, hasName.toString());
 
         return row;
     }
