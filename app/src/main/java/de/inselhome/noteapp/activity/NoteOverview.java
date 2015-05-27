@@ -8,6 +8,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewPropertyAnimator;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
@@ -118,7 +119,7 @@ public class NoteOverview extends Activity {
         final NoteFilterAdapter peopleFilterAdapter = new NoteFilterAdapter(this);
         final NoteFilterManager noteFilterManager = new NoteFilterManager(tagFilterList, peopleFilterList, tagFilterAdapter, peopleFilterAdapter);
 
-        hideFooter();
+        hideFooter(false);
 
         tagFilterList.setAdapter(tagFilterAdapter);
         tagFilterList.setOnItemClickListener(new FilterItemSelectionListener(noteFilterManager));
@@ -231,7 +232,7 @@ public class NoteOverview extends Activity {
             }
         }).execute(toSolve.toArray(new Note[toSolve.size()]));
 
-        showFooter();
+        showFooter(true);
         final CountDownTimer timer = new CountDownTimer(5000, 1000) {
             @Override
             public void onTick(long l) {
@@ -239,7 +240,7 @@ public class NoteOverview extends Activity {
 
             @Override
             public void onFinish() {
-                hideFooter();
+                hideFooter(true);
             }
         }.start();
 
@@ -256,18 +257,34 @@ public class NoteOverview extends Activity {
                     }
                 }).execute(toSolve.toArray(new Note[toSolve.size()]));
 
-                hideFooter();
+                hideFooter(true);
                 timer.cancel();
             }
         });
     }
 
-    private void showFooter() {
-        footer.setVisibility(View.VISIBLE);
+    private void showFooter(boolean animate) {
+        if (animate) {
+            ViewPropertyAnimator animator = footer.animate();
+            animator.alpha(100);
+            animator.setDuration(3000);
+            animator.start();
+        }
+        else {
+            footer.setAlpha(100);
+        }
     }
 
-    private void hideFooter() {
-        footer.setVisibility(View.INVISIBLE);
+    private void hideFooter(boolean animate) {
+        if (animate) {
+            ViewPropertyAnimator animator = footer.animate();
+            animator.alpha(0);
+            animator.setDuration(3000);
+            animator.start();
+        }
+        else {
+            footer.setAlpha(0);
+        }
     }
 
     private void removeNotesFromList(final int[] positions) {
