@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.Application;
 import android.content.SharedPreferences;
 import de.inselhome.noteapp.rest.NoteAppClient;
+import de.inselhome.noteapp.rest.impl.CacheableNoteAppClient;
 import de.inselhome.noteapp.rest.impl.NoteAppClientImpl;
 import de.inselhome.noteapp.security.Credentials;
 
@@ -30,7 +31,7 @@ public class NoteApp extends Application {
 
     public NoteAppClient getNoteAppClient() {
         if (noteAppClient == null) {
-            noteAppClient = new NoteAppClientImpl(getBackendUrl());
+            noteAppClient = new CacheableNoteAppClient(new NoteAppClientImpl(getBackendUrl()), getCacheDir());
         }
 
         return noteAppClient;
