@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="white">#fff</color>
+    <color name="grey_light">#ffb0b0b0</color>
     <color name="grey">#888</color>
+    <color name="grey_dark">#ff5c5c5c</color>
     <color name="black">#000</color>
+    <color name="black_transparent">#33000000</color>
     <color name="drawer_background">@color/white</color>
     <color name="footer_undo">#ff8800</color>
 </resources>

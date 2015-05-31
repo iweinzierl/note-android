@@ -3,6 +3,8 @@ package de.inselhome.noteapp.domain;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
 
+import java.util.Date;
+
 /**
  * @author iweinzierl
  */
@@ -16,6 +18,11 @@ public class NoteBuilder {
 
     public NoteBuilder withDescription(final String description) {
         note.setDescription(description);
+        return this;
+    }
+
+    public NoteBuilder withCreation(final Date creation) {
+        note.setCreation(creation);
         return this;
     }
 

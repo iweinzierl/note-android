@@ -5,8 +5,7 @@
         <!-- Customize your theme here. -->
     </style>
 
-    <style name="AppTheme.Viewport">
-    </style>
+    <style name="AppTheme.Viewport"/>
 
     <style name="AppTheme.Drawer">
         <item name="android:layout_margin">5dp</item>
@@ -89,4 +88,47 @@
         <item name="android:textSize">18sp</item>
     </style>
 
+    <style name="AppTheme.Widget">
+        <item name="android:background">@android:color/transparent</item>
+    </style>
+
+    <style name="AppTheme.Widget.Header">
+        <item name="android:background">@color/black_transparent</item>
+        <item name="android:layout_marginBottom">5dp</item>
+    </style>
+
+    <style name="AppTheme.Widget.Button">
+        <item name="android:layout_width">60dp</item>
+        <item name="android:layout_height">40dp</item>
+    </style>
+
+    <style name="AppTheme.Widget.ListView">
+        <item name="android:background">@color/black_transparent</item>
+    </style>
+
+    <style name="AppTheme.Widget.ListView.Item">
+        <item name="android:background">@color/white</item>
+        <item name="android:paddingLeft">5dp</item>
+        <item name="android:paddingRight">5dp</item>
+        <item name="android:paddingTop">2dp</item>
+        <item name="android:paddingBottom">2dp</item>
+    </style>
+
+    <style name="AppTheme.Widget.ListView.Item.Title">
+        <item name="android:textColor">@color/grey_dark</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:paddingLeft">5dp</item>
+        <item name="android:paddingRight">5dp</item>
+        <item name="android:paddingTop">0dp</item>
+        <item name="android:paddingBottom">0dp</item>
+    </style>
+
+    <style name="AppTheme.Widget.ListView.Item.Subtitle">
+        <item name="android:textColor">@color/grey_light</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:paddingLeft">5dp</item>
+        <item name="android:paddingRight">5dp</item>
+        <item name="android:paddingTop">0dp</item>
+        <item name="android:paddingBottom">0dp</item>
+    </style>
 </resources>

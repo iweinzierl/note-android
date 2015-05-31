@@ -34,7 +34,10 @@
                 android:resource="@xml/overview_widget_info" />
         </receiver>
 
-        <service android:name=".widget.overview.OverviewWidgetUpdateService"/>
+        <service
+            android:name=".widget.overview.OverviewWidgetRemoteService"
+            android:exported="false"
+            android:permission="android.permission.BIND_REMOTEVIEWS" />
 
     </application>
 
