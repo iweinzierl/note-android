@@ -12,8 +12,10 @@ import org.slf4j.Logger;
 import java.io.File;
 
 import de.inselhome.android.logging.AndroidLoggerFactory;
+import de.inselhome.noteapp.NoteApp;
 import de.inselhome.noteapp.R;
 import de.inselhome.noteapp.domain.Note;
+import de.inselhome.noteapp.security.Credentials;
 import de.inselhome.noteapp.util.FileUtils;
 
 public class OverviewWidgetRemoteService extends RemoteViewsService {
@@ -38,7 +40,10 @@ public class OverviewWidgetRemoteService extends RemoteViewsService {
         private void updatesNotesFromCache() {
             LOGGER.debug("Read notes from cache for widget usage");
 
-            final String json = FileUtils.fromFile(new File(applicationContext.getCacheDir(), "note_cache_ingo.json"));
+            final NoteApp noteApp = (NoteApp) getApplication();
+            final Credentials credentials = noteApp.loadCredentials();
+
+            final String json = FileUtils.fromFile(new File(applicationContext.getCacheDir(), "note_cache_" + credentials.getUsername() + ".json"));
             this.notes = new Gson().fromJson(json, Note[].class);
 
             LOGGER.info("Read {} notes from cache for widget usage", this.notes.length);
