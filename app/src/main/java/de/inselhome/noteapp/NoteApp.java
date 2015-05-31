@@ -2,11 +2,14 @@ package de.inselhome.noteapp;
 
 import android.app.Activity;
 import android.app.Application;
+import android.content.Intent;
 import android.content.SharedPreferences;
+
 import de.inselhome.noteapp.rest.NoteAppClient;
 import de.inselhome.noteapp.rest.impl.CacheableNoteAppClient;
 import de.inselhome.noteapp.rest.impl.NoteAppClientImpl;
 import de.inselhome.noteapp.security.Credentials;
+import de.inselhome.noteapp.service.UpdateOverviewWidgetService;
 
 /**
  * @author iweinzierl
@@ -20,6 +23,12 @@ public class NoteApp extends Application {
 
     private NoteAppClient noteAppClient;
 
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        startService(new Intent(this, UpdateOverviewWidgetService.class));
+    }
+
     public static NoteApp get(final Activity activity) {
         final Application application = activity.getApplication();
         if (application instanceof NoteApp) {
@@ -31,7 +40,7 @@ public class NoteApp extends Application {
 
     public NoteAppClient getNoteAppClient() {
         if (noteAppClient == null) {
-            noteAppClient = new CacheableNoteAppClient(new NoteAppClientImpl(getBackendUrl()), getCacheDir());
+            noteAppClient = new CacheableNoteAppClient(this, new NoteAppClientImpl(getBackendUrl()), getCacheDir());
         }
 
         return noteAppClient;

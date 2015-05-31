@@ -1,23 +1,30 @@
 package de.inselhome.noteapp.widget.overview;
 
-import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.widget.RemoteViews;
 
+import org.slf4j.Logger;
+
+import de.inselhome.android.logging.AndroidLoggerFactory;
 import de.inselhome.noteapp.R;
 import de.inselhome.noteapp.activity.CreateNoteActivity;
 
 public class OverviewWidgetProvider extends AppWidgetProvider {
 
-    private PendingIntent service;
+    public static final String UPDATE_ACTION = "de.inselhome.noteapp.OVERVIEWWIDGET_UPDATE";
+
+    private static final Logger LOGGER = AndroidLoggerFactory.getInstance().getLogger("OverviewWidgetProvider");
 
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
+        LOGGER.info("Update OverviewWidget");
+
         for (int appWidgetId : appWidgetIds) {
             final Intent remoteServiceIntent = new Intent(context, OverviewWidgetRemoteService.class);
             remoteServiceIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
@@ -28,16 +35,8 @@ public class OverviewWidgetProvider extends AppWidgetProvider {
             rv.setEmptyView(R.id.list, R.id.empty_view);
 
             final Intent intent = new Intent(context, CreateNoteActivity.class);
-            final PendingIntent pendingIntent = PendingIntent.getActivities(context, 0, new Intent[] { intent }, 0);
+            final PendingIntent pendingIntent = PendingIntent.getActivities(context, 0, new Intent[]{intent}, 0);
             rv.setOnClickPendingIntent(R.id.add, pendingIntent);
-
-            /*
-            final Intent intent = new Intent(context, OverviewWidgetUpdateService.class);
-            service = PendingIntent.getService(context, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
-
-            final AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-            alarmManager.setRepeating(AlarmManager.RTC, 0, 600000, service);
-            */
 
             appWidgetManager.updateAppWidget(appWidgetId, rv);
         }
@@ -46,10 +45,15 @@ public class OverviewWidgetProvider extends AppWidgetProvider {
     }
 
     @Override
-    public void onDisabled(Context context) {
-        super.onDisabled(context);
+    public void onReceive(Context context, Intent intent) {
+        LOGGER.debug("Received broadcast event: {}", intent.getAction());
 
-        final AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-        alarmManager.cancel(service);
+        if (intent.getAction().equals(UPDATE_ACTION)) {
+            final AppWidgetManager manager = AppWidgetManager.getInstance(context);
+            final ComponentName component = new ComponentName(context, OverviewWidgetProvider.class);
+
+            manager.notifyAppWidgetViewDataChanged(manager.getAppWidgetIds(component), R.id.list);
+        }
+        super.onReceive(context, intent);
     }
 }

@@ -28,6 +28,7 @@
         <receiver android:name=".widget.overview.OverviewWidgetProvider">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+                <action android:name="de.inselhome.noteapp.OVERVIEWWIDGET_UPDATE" />
             </intent-filter>
             <meta-data
                 android:name="android.appwidget.provider"
@@ -39,7 +40,8 @@
             android:exported="false"
             android:permission="android.permission.BIND_REMOTEVIEWS" />
 
-        <service android:name=".service.UpdateNoteService"/>
+        <service android:name=".service.UpdateNoteService" />
+        <service android:name=".service.UpdateOverviewWidgetService" />
 
     </application>
 

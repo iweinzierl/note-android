@@ -1,5 +1,8 @@
 package de.inselhome.noteapp.rest.impl;
 
+import android.content.Context;
+import android.content.Intent;
+
 import com.google.common.base.Optional;
 import com.google.gson.Gson;
 
@@ -14,6 +17,7 @@ import de.inselhome.android.logging.AndroidLoggerFactory;
 import de.inselhome.noteapp.domain.Note;
 import de.inselhome.noteapp.rest.NoteAppClient;
 import de.inselhome.noteapp.util.FileUtils;
+import de.inselhome.noteapp.widget.overview.OverviewWidgetProvider;
 
 public class CacheableNoteAppClient implements NoteAppClient {
 
@@ -25,8 +29,10 @@ public class CacheableNoteAppClient implements NoteAppClient {
     private List<Note> notes;
 
     private String username;
+    private Context context;
 
-    public CacheableNoteAppClient(final NoteAppClient delegate, final File cacheDir) {
+    public CacheableNoteAppClient(final Context context, final NoteAppClient delegate, final File cacheDir) {
+        this.context = context;
         this.notes = new ArrayList<>();
         this.delegate = delegate;
         this.cacheDir = cacheDir;
@@ -70,6 +76,7 @@ public class CacheableNoteAppClient implements NoteAppClient {
         final String jsonNotes = new Gson().toJson(notes.get());
         if (FileUtils.toFile(getCacheFile(), jsonNotes)) {
             LOGGER.info("successfully cached {} notes", notes.get().size());
+            context.sendBroadcast(new Intent(OverviewWidgetProvider.UPDATE_ACTION));
         } else {
             LOGGER.warn("caching of notes failed");
         }
@@ -84,6 +91,7 @@ public class CacheableNoteAppClient implements NoteAppClient {
         final Optional<Note> newNote = delegate.create(note);
         if (newNote.isPresent()) {
             this.notes.add(newNote.get());
+            writeCachedNotes(Optional.of(this.notes));
         }
         return newNote;
     }
@@ -98,6 +106,7 @@ public class CacheableNoteAppClient implements NoteAppClient {
     public boolean solve(String noteId) {
         if (delegate.solve(noteId)) {
             removeNoteFromMemoryCache(noteId);
+            writeCachedNotes(Optional.of(this.notes));
             return true;
         }
 

@@ -17,6 +17,7 @@ import de.inselhome.android.logging.AndroidLoggerFactory;
 import de.inselhome.noteapp.NoteApp;
 import de.inselhome.noteapp.domain.Note;
 import de.inselhome.noteapp.task.LoadNotesTask;
+import de.inselhome.noteapp.widget.overview.OverviewWidgetProvider;
 
 public class UpdateNoteService extends Service {
 
@@ -48,6 +49,7 @@ public class UpdateNoteService extends Service {
             public void onFinish(Optional<List<Note>> result) {
                 if (result.isPresent()) {
                     LOGGER.info("Updated cache with {} notes", result.get().size());
+                    sendBroadcast(new Intent(OverviewWidgetProvider.UPDATE_ACTION));
                 }
                 else {
                     LOGGER.warn("Updating note cache failed");
