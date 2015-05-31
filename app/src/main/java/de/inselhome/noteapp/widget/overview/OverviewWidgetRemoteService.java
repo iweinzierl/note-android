@@ -1,6 +1,5 @@
 package de.inselhome.noteapp.widget.overview;
 
-import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.widget.RemoteViews;
@@ -14,7 +13,6 @@ import java.io.File;
 
 import de.inselhome.android.logging.AndroidLoggerFactory;
 import de.inselhome.noteapp.R;
-import de.inselhome.noteapp.activity.CreateNoteActivity;
 import de.inselhome.noteapp.domain.Note;
 import de.inselhome.noteapp.util.FileUtils;
 
@@ -37,8 +35,7 @@ public class OverviewWidgetRemoteService extends RemoteViewsService {
             LOGGER.info("Setup instance of OverviewRemoteViewsFactory");
         }
 
-        @Override
-        public void onCreate() {
+        private void updatesNotesFromCache() {
             LOGGER.debug("Read notes from cache for widget usage");
 
             final String json = FileUtils.fromFile(new File(applicationContext.getCacheDir(), "note_cache_ingo.json"));
@@ -48,7 +45,13 @@ public class OverviewWidgetRemoteService extends RemoteViewsService {
         }
 
         @Override
+        public void onCreate() {
+            updatesNotesFromCache();
+        }
+
+        @Override
         public void onDataSetChanged() {
+            updatesNotesFromCache();
         }
 
         @Override

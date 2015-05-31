@@ -24,6 +24,8 @@ import de.inselhome.noteapp.NoteApp;
 import de.inselhome.noteapp.R;
 import de.inselhome.noteapp.rest.NoteAppClient;
 import de.inselhome.noteapp.security.Credentials;
+import de.inselhome.noteapp.service.UpdateNoteService;
+
 import org.slf4j.Logger;
 
 
@@ -204,6 +206,8 @@ public class LoginActivity extends Activity {
 
             if (authenticated) {
                 saveCredentialsIfSelected();
+                UpdateNoteService.start(getApplicationContext());
+
                 startActivity(new Intent(LoginActivity.this, NoteOverview.class));
             } else {
                 passwordView.setError(getString(R.string.error_incorrect_password));

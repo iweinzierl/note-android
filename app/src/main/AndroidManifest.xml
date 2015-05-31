@@ -39,6 +39,8 @@
             android:exported="false"
             android:permission="android.permission.BIND_REMOTEVIEWS" />
 
+        <service android:name=".service.UpdateNoteService"/>
+
     </application>
 
     <!-- To auto-complete the username text field in the login form with the user's emails -->
