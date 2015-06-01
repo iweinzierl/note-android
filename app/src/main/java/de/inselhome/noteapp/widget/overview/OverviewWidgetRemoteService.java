@@ -19,6 +19,7 @@ import de.inselhome.noteapp.activity.CreateNoteActivity;
 import de.inselhome.noteapp.activity.NoteOverview;
 import de.inselhome.noteapp.domain.Note;
 import de.inselhome.noteapp.security.Credentials;
+import de.inselhome.noteapp.util.ColorProvider;
 import de.inselhome.noteapp.util.FileUtils;
 
 public class OverviewWidgetRemoteService extends RemoteViewsService {
@@ -76,7 +77,7 @@ public class OverviewWidgetRemoteService extends RemoteViewsService {
             final Note note = notes[i];
 
             final RemoteViews rv = new RemoteViews(getPackageName(), R.layout.list_item_widget_overview);
-            rv.setTextViewText(R.id.description, note.getDescription());
+            rv.setTextViewText(R.id.description, ColorProvider.colorText(note.getDescription()));
             rv.setTextViewText(R.id.creation, note.getCreation().toString());
 
             Intent fillInIntent = new Intent();
