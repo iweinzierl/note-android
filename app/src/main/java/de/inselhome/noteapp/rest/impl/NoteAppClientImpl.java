@@ -94,6 +94,23 @@ public class NoteAppClientImpl implements NoteAppClient {
 
     @Override
     public Optional<Note> update(final Note note) {
+        LOGGER.info("Update note '{}' in backend", note);
+        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+        httpHeaders.setAccept(Lists.newArrayList(MediaType.APPLICATION_JSON));
+
+        try {
+            final URL url = withPath("/note");
+            final HttpEntity<Note> httpEntity = new HttpEntity<>(note, httpHeaders);
+
+            final ResponseEntity<Note> exchange = restTemplate.exchange(url.toString(), HttpMethod.PUT, httpEntity, Note.class);
+            final Note updatedNote = exchange.getBody();
+
+            LOGGER.debug("Successfully updated note '{}'", updatedNote);
+            return Optional.fromNullable(updatedNote);
+        } catch (Exception e) {
+            LOGGER.error("Error while updating note '{}'", e, note);
+        }
+
         return Optional.absent();
     }
 

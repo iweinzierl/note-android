@@ -38,6 +38,10 @@ public class OverviewWidgetProvider extends AppWidgetProvider {
             final PendingIntent pendingIntent = PendingIntent.getActivities(context, 0, new Intent[]{intent}, 0);
             rv.setOnClickPendingIntent(R.id.add, pendingIntent);
 
+            final Intent overviewIntent = new Intent(context, CreateNoteActivity.class);
+            final PendingIntent pendingOverviewIntent = PendingIntent.getActivities(context, 0, new Intent[] { overviewIntent}, 0);
+            rv.setPendingIntentTemplate(R.id.list, pendingOverviewIntent);
+
             appWidgetManager.updateAppWidget(appWidgetId, rv);
         }
 

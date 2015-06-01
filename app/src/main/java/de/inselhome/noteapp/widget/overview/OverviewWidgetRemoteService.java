@@ -1,5 +1,6 @@
 package de.inselhome.noteapp.widget.overview;
 
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.widget.RemoteViews;
@@ -14,6 +15,8 @@ import java.io.File;
 import de.inselhome.android.logging.AndroidLoggerFactory;
 import de.inselhome.noteapp.NoteApp;
 import de.inselhome.noteapp.R;
+import de.inselhome.noteapp.activity.CreateNoteActivity;
+import de.inselhome.noteapp.activity.NoteOverview;
 import de.inselhome.noteapp.domain.Note;
 import de.inselhome.noteapp.security.Credentials;
 import de.inselhome.noteapp.util.FileUtils;
@@ -75,6 +78,10 @@ public class OverviewWidgetRemoteService extends RemoteViewsService {
             final RemoteViews rv = new RemoteViews(getPackageName(), R.layout.list_item_widget_overview);
             rv.setTextViewText(R.id.description, note.getDescription());
             rv.setTextViewText(R.id.creation, note.getCreation().toString());
+
+            Intent fillInIntent = new Intent();
+            fillInIntent.putExtra(CreateNoteActivity.EXTRA_NOTE_ID, note.getId());
+            rv.setOnClickFillInIntent(R.id.item, fillInIntent);
 
             return rv;
         }
