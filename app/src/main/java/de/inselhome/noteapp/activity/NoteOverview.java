@@ -103,17 +103,11 @@ public class NoteOverview extends Activity {
         noteList = (ListView) findViewById(R.id.noteList);
         footer = findViewById(R.id.footer);
 
-        final SwipeDismissListViewTouchListener dismissListener = new SwipeDismissListViewTouchListener(noteList, new SwipeDismissListViewTouchListener.DismissCallbacks() {
-            @Override
-            public boolean canDismiss(int position) {
-                return true;
-            }
+        final SwipeDismissListViewTouchListener dismissListener = setupSwipeDismissListener();
+        noteList.setOnTouchListener(dismissListener);
+        noteList.setOnScrollListener(dismissListener.makeScrollListener());
 
-            @Override
-            public void onDismiss(ListView listView, int[] reverseSortedPositions) {
-                removeNotes(reverseSortedPositions);
-            }
-        });
+        setupFloatingAddButton();
 
         final NoteFilterAdapter tagFilterAdapter = new NoteFilterAdapter(this);
         final NoteFilterAdapter peopleFilterAdapter = new NoteFilterAdapter(this);
@@ -126,9 +120,32 @@ public class NoteOverview extends Activity {
 
         peopleFilterList.setAdapter(peopleFilterAdapter);
         peopleFilterList.setOnItemClickListener(new FilterItemSelectionListener(noteFilterManager));
+    }
 
-        noteList.setOnTouchListener(dismissListener);
-        noteList.setOnScrollListener(dismissListener.makeScrollListener());
+    private SwipeDismissListViewTouchListener setupSwipeDismissListener() {
+        return new SwipeDismissListViewTouchListener(noteList, new SwipeDismissListViewTouchListener.DismissCallbacks() {
+                @Override
+                public boolean canDismiss(int position) {
+                    return true;
+                }
+
+                @Override
+                public void onDismiss(ListView listView, int[] reverseSortedPositions) {
+                    removeNotes(reverseSortedPositions);
+                }
+            });
+    }
+
+    private void setupFloatingAddButton() {
+        final View addNoteButton = findViewById(R.id.add);
+        if (addNoteButton != null) {
+            addNoteButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    startActivity(new CreateNoteIntent(NoteOverview.this));
+                }
+            });
+        }
     }
 
     @Override

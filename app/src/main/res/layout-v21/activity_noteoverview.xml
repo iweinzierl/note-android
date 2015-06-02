@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/drawer_layout"
+    style="@style/AppTheme.Viewport"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ListView
+            android:id="@+id/noteList"
+            style="@style/AppTheme.NoteList"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <LinearLayout
+            android:id="@+id/footer"
+            style="@style/AppTheme.ActionBarFooter"
+            android:layout_alignParentBottom="true"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                style="@style/AppTheme.ActionBarFooter.Item"
+                android:layout_gravity="start"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+                android:paddingEnd="10dp"
+                android:paddingStart="10dp"
+                android:text="@string/noteoverview_footer_items_deleted" />
+
+            <TextView
+                style="@style/AppTheme.ActionBarFooter.Item"
+                android:id="@+id/undo"
+                android:gravity="end"
+                android:layout_gravity="end"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+                android:paddingEnd="10dp"
+                android:paddingStart="10dp"
+                android:textColor="@color/footer_undo"
+                android:text="@string/noteoverview_footer_undo_delete" />
+
+        </LinearLayout>
+
+        <com.example.android.floatingactionbuttonbasic.FloatingActionButton
+            android:id="@+id/add"
+            android:layout_alignEnd="@+id/noteList"
+            android:layout_alignBottom="@+id/noteList"
+            android:layout_width="@dimen/fab_size"
+            android:layout_height="@dimen/fab_size"
+            android:layout_marginBottom="16dp"
+            android:layout_marginEnd="16dp"
+            android:elevation="@dimen/fab_elevation"
+            android:stateListAnimator="@animator/floatingactionbutton_anim"
+            android:background="@drawable/floatingactionbutton">
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/add"
+                android:layout_gravity="center" />
+
+        </com.example.android.floatingactionbuttonbasic.FloatingActionButton>
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/drawer"
+        style="@style/AppTheme.Drawer"
+        android:layout_gravity="end"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@color/white"
+            android:orientation="vertical">
+
+            <TextView
+                style="@style/AppTheme.DrawerList.Heading"
+                android:text="Tags" />
+
+            <ListView
+                android:id="@+id/tagFilterList"
+                style="@style/AppTheme.DrawerList"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:choiceMode="multipleChoice" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@color/white"
+            android:orientation="vertical">
+
+            <TextView
+                style="@style/AppTheme.DrawerList.Heading"
+                android:text="People" />
+
+            <ListView
+                android:id="@+id/peopleFilterList"
+                style="@style/AppTheme.DrawerList"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:choiceMode="multipleChoice" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</android.support.v4.widget.DrawerLayout>

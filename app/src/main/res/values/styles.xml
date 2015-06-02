@@ -59,22 +59,24 @@
     </style>
 
     <style name="AppTheme.NoteList">
-        <item name="android:dividerHeight">5dp</item>
+        <item name="android:dividerHeight">2dp</item>
         <item name="android:divider">@color/grey</item>
     </style>
 
     <style name="AppTheme.NoteList.Item">
         <item name="android:background">@color/white</item>
         <item name="android:paddingLeft">10dp</item>
-        <item name="android:layout_margin">2dp</item>
+        <item name="android:layout_margin">4dp</item>
     </style>
 
     <style name="AppTheme.NoteList.Item.Description">
         <item name="android:textSize">18sp</item>
+        <item name="android:alpha">0.87</item>
     </style>
 
     <style name="AppTheme.NoteList.Item.Creation">
         <item name="android:textSize">14sp</item>
+        <item name="android:alpha">0.54</item>
     </style>
 
     <style name="AppTheme.Suggestion">
