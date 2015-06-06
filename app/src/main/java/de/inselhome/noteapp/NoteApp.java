@@ -5,9 +5,9 @@ import android.app.Application;
 import android.content.Intent;
 import android.content.SharedPreferences;
 
-import de.inselhome.noteapp.rest.NoteAppClient;
-import de.inselhome.noteapp.rest.impl.CacheableNoteAppClient;
-import de.inselhome.noteapp.rest.impl.NoteAppClientImpl;
+import de.inselhome.noteapp.data.NoteAppClient;
+import de.inselhome.noteapp.data.impl.CacheableNoteAppClient;
+import de.inselhome.noteapp.data.impl.NoteAppClientImpl;
 import de.inselhome.noteapp.security.Credentials;
 import de.inselhome.noteapp.service.UpdateOverviewWidgetService;
 

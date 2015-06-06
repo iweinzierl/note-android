@@ -1,10 +1,10 @@
-package de.inselhome.noteapp.rest.impl;
+package de.inselhome.noteapp.data.impl;
 
 import com.google.common.base.Optional;
 import com.google.common.collect.Lists;
 import de.inselhome.android.logging.AndroidLoggerFactory;
 import de.inselhome.noteapp.domain.Note;
-import de.inselhome.noteapp.rest.NoteAppClient;
+import de.inselhome.noteapp.data.NoteAppClient;
 import org.slf4j.Logger;
 import org.springframework.http.HttpBasicAuthentication;
 import org.springframework.http.HttpEntity;

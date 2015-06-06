@@ -1,4 +1,4 @@
-package de.inselhome.noteapp.rest.impl;
+package de.inselhome.noteapp.data.impl;
 
 import android.content.Context;
 import android.content.Intent;
@@ -15,7 +15,7 @@ import java.util.List;
 
 import de.inselhome.android.logging.AndroidLoggerFactory;
 import de.inselhome.noteapp.domain.Note;
-import de.inselhome.noteapp.rest.NoteAppClient;
+import de.inselhome.noteapp.data.NoteAppClient;
 import de.inselhome.noteapp.util.FileUtils;
 import de.inselhome.noteapp.widget.overview.OverviewWidgetProvider;
 

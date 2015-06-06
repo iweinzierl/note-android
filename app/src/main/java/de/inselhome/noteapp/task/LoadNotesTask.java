@@ -4,7 +4,7 @@ import android.os.AsyncTask;
 import com.google.common.base.Optional;
 import de.inselhome.android.logging.AndroidLoggerFactory;
 import de.inselhome.noteapp.domain.Note;
-import de.inselhome.noteapp.rest.NoteAppClient;
+import de.inselhome.noteapp.data.NoteAppClient;
 import org.slf4j.Logger;
 
 import java.util.List;

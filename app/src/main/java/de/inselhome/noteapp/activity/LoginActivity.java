@@ -22,7 +22,7 @@ import com.google.common.base.Strings;
 import de.inselhome.android.logging.AndroidLoggerFactory;
 import de.inselhome.noteapp.NoteApp;
 import de.inselhome.noteapp.R;
-import de.inselhome.noteapp.rest.NoteAppClient;
+import de.inselhome.noteapp.data.NoteAppClient;
 import de.inselhome.noteapp.security.Credentials;
 import de.inselhome.noteapp.service.UpdateNoteService;
 

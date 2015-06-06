@@ -31,7 +31,7 @@ import de.inselhome.noteapp.adapter.note.NoteAdapter;
 import de.inselhome.noteapp.adapter.note.NoteFilterAdapter;
 import de.inselhome.noteapp.domain.Note;
 import de.inselhome.noteapp.intent.CreateNoteIntent;
-import de.inselhome.noteapp.rest.NoteAppClient;
+import de.inselhome.noteapp.data.NoteAppClient;
 import de.inselhome.noteapp.task.LoadNotesTask;
 import de.inselhome.noteapp.task.OpenNoteTask;
 import de.inselhome.noteapp.task.SolveNoteTask;

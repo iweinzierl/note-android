@@ -9,7 +9,7 @@ import java.util.List;
 
 import de.inselhome.android.logging.AndroidLoggerFactory;
 import de.inselhome.noteapp.domain.Note;
-import de.inselhome.noteapp.rest.NoteAppClient;
+import de.inselhome.noteapp.data.NoteAppClient;
 
 /**
  * @author iweinzierl

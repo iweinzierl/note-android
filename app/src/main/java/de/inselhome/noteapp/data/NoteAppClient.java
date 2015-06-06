@@ -1,4 +1,4 @@
-package de.inselhome.noteapp.rest;
+package de.inselhome.noteapp.data;
 
 import java.util.List;
 
