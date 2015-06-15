@@ -60,7 +60,7 @@ public class FileSyncProvider implements SyncProvider {
             final List<SyncTask> filteredTasks = Lists.newArrayList(Iterables.filter(syncTasks, new Predicate<SyncTask>() {
                 @Override
                 public boolean apply(SyncTask input) {
-                    return task.getNote().getId().equals(input.getNote().getId());
+                    return !task.getNote().getId().equals(input.getNote().getId());
                 }
             }));
 

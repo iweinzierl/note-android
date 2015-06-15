@@ -52,7 +52,7 @@ public class OverviewWidgetRemoteService extends RemoteViewsService {
                 LOGGER.error("Cannot updates notes from cache for widget usage", e);
             }
 
-            LOGGER.info("Read {} notes from cache for widget usage", this.notes.size());
+            LOGGER.info("Read {} notes from cache for widget usage", this.notes != null ? this.notes.size() : "null");
         }
 
         @Override

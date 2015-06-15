@@ -3,6 +3,7 @@ package de.inselhome.noteapp.data.impl.remote;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.AsyncTask;
 
 import com.google.common.base.Function;
 import com.google.common.base.Optional;
@@ -32,6 +33,7 @@ import de.inselhome.noteapp.domain.sync.SyncTask;
 import de.inselhome.noteapp.domain.sync.UnsyncedNote;
 import de.inselhome.noteapp.exception.NoNetworkException;
 import de.inselhome.noteapp.exception.PersistenceException;
+import de.inselhome.noteapp.service.SyncRemoteService;
 
 /**
  * @author iweinzierl
@@ -54,6 +56,8 @@ public class RemoteNoteAppClient implements NoteAppClient {
         this.restTemplate = new RestTemplate();
         this.restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
         this.syncProvider = new FileSyncProvider(context.getFilesDir());
+
+        SyncRemoteService.start(context);
     }
 
     @Override
@@ -216,7 +220,40 @@ public class RemoteNoteAppClient implements NoteAppClient {
     public void delete(final Note note) {
     }
 
-    public HttpHeaders createBasicHttpHeaders() {
+    public void sync() throws IOException {
+        final List<SyncTask> tasks = syncProvider.list();
+
+        LOGGER.info("Starting sync of {} notes with remote service", tasks.size());
+
+        new AsyncTask<SyncTask, Void, Void>() {
+            @Override
+            protected Void doInBackground(SyncTask... tasks) {
+                int syncedTasks = 0;
+
+                for (SyncTask task : tasks) {
+                    switch (task.getSyncAction()) {
+                        // TODO implement all sync actions
+                        case CREATE:
+                            try {
+                                RemoteNoteAppClient.this.create(task.getNote());
+                                syncProvider.remove(task);
+
+                                syncedTasks++;
+                            } catch (PersistenceException e) {
+                                LOGGER.warn("Failed to sync note: {} -> {}", task.getSyncAction(), task.getNote());
+                            }
+                    }
+                }
+
+                LOGGER.info("Synced {} notes", syncedTasks);
+
+                return null;
+            }
+        }.execute(tasks.toArray(new SyncTask[tasks.size()]));
+
+    }
+
+    private HttpHeaders createBasicHttpHeaders() {
         final HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setAccept(Lists.newArrayList(MediaType.APPLICATION_JSON));
         httpHeaders.setAuthorization(new HttpBasicAuthentication(username, password));
