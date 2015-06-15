@@ -26,6 +26,7 @@ import de.inselhome.noteapp.task.UpdateNoteTask;
 import org.slf4j.Logger;
 
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -110,7 +111,7 @@ public class CreateNoteActivity extends Activity {
         LOGGER.debug("Going to save note: {}", noteDescription);
 
         try {
-            final Note newNote = new NoteBuilder().withDescription(noteDescription).build();
+            final Note newNote = new NoteBuilder().withDescription(noteDescription).withCreation(new Date()).build();
             final NoteDescriptionParser parser = new NoteDescriptionParser(newNote.getDescription());
             newNote.setPeople(parser.getPeople());
             newNote.setTags(parser.getTags());

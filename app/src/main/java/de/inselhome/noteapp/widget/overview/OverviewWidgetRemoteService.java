@@ -1,26 +1,23 @@
 package de.inselhome.noteapp.widget.overview;
 
-import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
 
-import com.google.gson.Gson;
+import com.google.common.base.Optional;
 
 import org.slf4j.Logger;
 
-import java.io.File;
+import java.util.List;
 
 import de.inselhome.android.logging.AndroidLoggerFactory;
 import de.inselhome.noteapp.NoteApp;
 import de.inselhome.noteapp.R;
 import de.inselhome.noteapp.activity.CreateNoteActivity;
-import de.inselhome.noteapp.activity.NoteOverview;
 import de.inselhome.noteapp.domain.Note;
-import de.inselhome.noteapp.security.Credentials;
+import de.inselhome.noteapp.exception.PersistenceException;
 import de.inselhome.noteapp.util.ColorProvider;
-import de.inselhome.noteapp.util.FileUtils;
 
 public class OverviewWidgetRemoteService extends RemoteViewsService {
 
@@ -34,7 +31,7 @@ public class OverviewWidgetRemoteService extends RemoteViewsService {
         private final Logger LOGGER = AndroidLoggerFactory.getInstance().getLogger("OverviewRemoteViewsFactory");
         private final Context applicationContext;
 
-        private Note[] notes;
+        private List<Note> notes;
 
         public OverviewRemoteViewsFactory(Context applicationContext, Intent intent) {
             this.applicationContext = applicationContext;
@@ -45,12 +42,17 @@ public class OverviewWidgetRemoteService extends RemoteViewsService {
             LOGGER.debug("Read notes from cache for widget usage");
 
             final NoteApp noteApp = (NoteApp) getApplication();
-            final Credentials credentials = noteApp.loadCredentials();
+            try {
+                Optional<List<Note>> optionalNotes = noteApp.getLocalNoteAppClient().list();
 
-            final String json = FileUtils.fromFile(new File(applicationContext.getCacheDir(), "note_cache_" + credentials.getUsername() + ".json"));
-            this.notes = new Gson().fromJson(json, Note[].class);
+                if (optionalNotes.isPresent()) {
+                    this.notes = optionalNotes.get();
+                }
+            } catch (PersistenceException e) {
+                LOGGER.error("Cannot updates notes from cache for widget usage", e);
+            }
 
-            LOGGER.info("Read {} notes from cache for widget usage", this.notes.length);
+            LOGGER.info("Read {} notes from cache for widget usage", this.notes.size());
         }
 
         @Override
@@ -69,12 +71,12 @@ public class OverviewWidgetRemoteService extends RemoteViewsService {
 
         @Override
         public int getCount() {
-            return notes == null ? 0 : notes.length;
+            return notes == null ? 0 : notes.size();
         }
 
         @Override
         public RemoteViews getViewAt(int i) {
-            final Note note = notes[i];
+            final Note note = notes.get(i);
 
             final RemoteViews rv = new RemoteViews(getPackageName(), R.layout.list_item_widget_overview);
             rv.setTextViewText(R.id.description, ColorProvider.colorText(note.getDescription()));

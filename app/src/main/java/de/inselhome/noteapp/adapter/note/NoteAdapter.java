@@ -22,6 +22,7 @@ import de.inselhome.android.logging.AndroidLoggerFactory;
 import de.inselhome.android.utils.UiUtils;
 import de.inselhome.noteapp.R;
 import de.inselhome.noteapp.domain.Note;
+import de.inselhome.noteapp.domain.sync.UnsyncedNote;
 import de.inselhome.noteapp.util.ColorProvider;
 import de.inselhome.noteapp.util.NoteFilter;
 
@@ -39,6 +40,7 @@ public class NoteAdapter extends BaseAdapter {
     private Set<NoteFilter> filters;
 
     private static class ViewHolder {
+        public View root;
         public TextView description;
         public TextView creation;
     }
@@ -113,6 +115,10 @@ public class NoteAdapter extends BaseAdapter {
         UiUtils.setSafeHtmlText(viewHolder.description, R.id.description, ColorProvider.colorText(note.getDescription()));
         UiUtils.setSafeText(viewHolder.creation, R.id.creation, note.getCreation().toString());
 
+        if (note instanceof UnsyncedNote) {
+            viewHolder.root.setAlpha(0.5f);
+        }
+
         return row;
     }
 
@@ -137,6 +143,7 @@ public class NoteAdapter extends BaseAdapter {
         final ViewHolder viewHolder = new ViewHolder();
         viewHolder.description = UiUtils.getGeneric(TextView.class, row, R.id.description);
         viewHolder.creation = UiUtils.getGeneric(TextView.class, row, R.id.creation);
+        viewHolder.root = UiUtils.getGeneric(View.class, row, R.id.itemRoot);
 
         row.setTag(viewHolder);
 

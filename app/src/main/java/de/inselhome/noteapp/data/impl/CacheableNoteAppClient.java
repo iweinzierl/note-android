@@ -14,8 +14,9 @@ import java.util.Arrays;
 import java.util.List;
 
 import de.inselhome.android.logging.AndroidLoggerFactory;
-import de.inselhome.noteapp.domain.Note;
 import de.inselhome.noteapp.data.NoteAppClient;
+import de.inselhome.noteapp.domain.Note;
+import de.inselhome.noteapp.exception.PersistenceException;
 import de.inselhome.noteapp.util.FileUtils;
 import de.inselhome.noteapp.widget.overview.OverviewWidgetProvider;
 
@@ -39,13 +40,18 @@ public class CacheableNoteAppClient implements NoteAppClient {
     }
 
     @Override
-    public Boolean login(String username, String password) {
-        this.username = username;
-        return delegate.login(username, password);
+    public void setPassword(String password) {
+        delegate.setPassword(password);
     }
 
     @Override
-    public Optional<List<Note>> list() {
+    public void setUsername(String username) {
+        this.username = username;
+        delegate.setUsername(username);
+    }
+
+    @Override
+    public Optional<List<Note>> list() throws PersistenceException {
         final Optional<List<Note>> notes = delegate.list();
 
         if (notes.isPresent()) {
@@ -87,7 +93,7 @@ public class CacheableNoteAppClient implements NoteAppClient {
     }
 
     @Override
-    public Optional<Note> create(Note note) {
+    public Optional<Note> create(Note note) throws PersistenceException {
         final Optional<Note> newNote = delegate.create(note);
         if (newNote.isPresent()) {
             this.notes.add(newNote.get());
@@ -97,7 +103,7 @@ public class CacheableNoteAppClient implements NoteAppClient {
     }
 
     @Override
-    public Optional<Note> update(Note note) {
+    public Optional<Note> update(Note note) throws PersistenceException {
         // TODO update cached note
         return delegate.update(note);
     }

@@ -161,7 +161,8 @@ public class LoginActivity extends Activity {
         final Credentials credentials = app.loadCredentials();
 
         if (credentials != null) {
-            app.getNoteAppClient().login(credentials.getUsername(), credentials.getPassword());
+            app.getNoteAppClient().setUsername(credentials.getUsername());
+            app.getNoteAppClient().setPassword(credentials.getPassword());
             return true;
         } else {
             return false;
@@ -192,7 +193,9 @@ public class LoginActivity extends Activity {
         @Override
         protected Boolean doInBackground(Void... params) {
             try {
-                return noteAppClient.login(username, password);
+                noteAppClient.setUsername(username);
+                noteAppClient.setPassword(password);
+                return Boolean.TRUE;
             } catch (Exception e) {
                 LOGGER.warn("Login failed: {}", e, e.getMessage());
             }

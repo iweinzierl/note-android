@@ -3,20 +3,24 @@ package de.inselhome.noteapp.data;
 import java.util.List;
 
 import com.google.common.base.Optional;
+
 import de.inselhome.noteapp.domain.Note;
+import de.inselhome.noteapp.exception.PersistenceException;
 
 /**
- * @author  iweinzierl
+ * @author iweinzierl
  */
 public interface NoteAppClient {
 
-    Boolean login(final String username, final String password);
+    void setUsername(String username);
 
-    Optional<List<Note>> list();
+    void setPassword(String password);
 
-    Optional<Note> create(Note note);
+    Optional<List<Note>> list() throws PersistenceException;
 
-    Optional<Note> update(Note note);
+    Optional<Note> create(Note note) throws PersistenceException;
+
+    Optional<Note> update(Note note) throws PersistenceException;
 
     boolean solve(String noteId);
 
