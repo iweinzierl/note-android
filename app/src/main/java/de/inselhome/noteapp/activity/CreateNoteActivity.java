@@ -22,6 +22,7 @@ import de.inselhome.noteapp.data.NoteAppClient;
 import de.inselhome.noteapp.task.CreateNotesTask;
 import de.inselhome.noteapp.task.LoadNotesTask;
 import de.inselhome.noteapp.task.UpdateNoteTask;
+import de.inselhome.noteapp.widget.overview.OverviewWidgetProvider;
 
 import org.slf4j.Logger;
 
@@ -139,6 +140,8 @@ public class CreateNoteActivity extends Activity {
                     public void onFinish(List<Note> result) {
                         if (!result.isEmpty()) {
                             setResult(RESULT_OK, new CreateNoteIntent(result.get(0)));
+                            sendBroadcast(new Intent(OverviewWidgetProvider.UPDATE_ACTION));
+
                             finish();
                         }
                     }

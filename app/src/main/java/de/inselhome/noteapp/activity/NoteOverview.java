@@ -37,6 +37,7 @@ import de.inselhome.noteapp.task.OpenNoteTask;
 import de.inselhome.noteapp.task.SolveNoteTask;
 import de.inselhome.noteapp.util.LogoutHandler;
 import de.inselhome.noteapp.util.NoteFilter;
+import de.inselhome.noteapp.widget.overview.OverviewWidgetProvider;
 
 /**
  * @author iweinzierl
@@ -245,6 +246,7 @@ public class NoteOverview extends Activity {
             @Override
             public void onFinish(List<Note> successful, List<Note> failed) {
                 LOGGER.info("Successfully marked {} notes as solved", successful.size());
+                sendBroadcast(new Intent(OverviewWidgetProvider.UPDATE_ACTION));
                 // TODO display failure
             }
         }).execute(toSolve.toArray(new Note[toSolve.size()]));
