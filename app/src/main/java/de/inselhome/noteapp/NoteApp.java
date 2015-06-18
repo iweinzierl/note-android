@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 
 import de.inselhome.noteapp.data.NoteAppClient;
 import de.inselhome.noteapp.data.impl.LocalNoteAppClient;
+import de.inselhome.noteapp.data.impl.remote.BufferedRemoteClient;
 import de.inselhome.noteapp.data.impl.remote.RemoteNoteAppClient;
 import de.inselhome.noteapp.security.Credentials;
 import de.inselhome.noteapp.service.UpdateOverviewWidgetService;
@@ -22,7 +23,7 @@ public class NoteApp extends Application {
     public static final String BASE_URL = "http://inselhome.org:8088";
 
     private NoteAppClient noteAppClient;
-    private NoteAppClient localNoteAppClient;
+    private LocalNoteAppClient localNoteAppClient;
     private RemoteNoteAppClient remoteNoteAppClient;
 
     @Override
@@ -50,7 +51,7 @@ public class NoteApp extends Application {
         return noteAppClient;
     }
 
-    public NoteAppClient getLocalNoteAppClient() {
+    public LocalNoteAppClient getLocalNoteAppClient() {
         if (localNoteAppClient == null) {
             localNoteAppClient = new LocalNoteAppClient(this);
 
@@ -66,7 +67,7 @@ public class NoteApp extends Application {
 
     public RemoteNoteAppClient getRemoteNoteAppClient() {
         if (remoteNoteAppClient == null) {
-            remoteNoteAppClient = new RemoteNoteAppClient(getApplicationContext(), getBackendUrl());
+            remoteNoteAppClient = new BufferedRemoteClient(getApplicationContext(), getBackendUrl(), getLocalNoteAppClient());
 
             final Credentials credentials = loadCredentials();
             if (credentials != null) {

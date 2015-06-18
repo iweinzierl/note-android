@@ -103,8 +103,9 @@ public class LocalNoteAppClient implements NoteAppClient {
     }
 
     @Override
-    public void delete(Note note) {
-
+    public boolean delete(Note note) {
+        // TODO
+        return false;
     }
 
     public void replace(final List<Note> notes) throws PersistenceException {

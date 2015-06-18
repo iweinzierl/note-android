@@ -73,7 +73,7 @@ public class RemoteNoteAppClient implements NoteAppClient {
 
     @SuppressWarnings("unchecked")
     @Override
-    public Optional<List<Note>> list() {
+    public Optional<List<Note>> list() throws PersistenceException {
         LOGGER.info("Fetch note list from backend");
 
         checkInternetConnection();
@@ -89,9 +89,8 @@ public class RemoteNoteAppClient implements NoteAppClient {
             return Optional.fromNullable(mergeWithSync(notes));
         } catch (Exception e) {
             LOGGER.error("Error while fetching notes from server: {}", e, e.getMessage());
+            throw new PersistenceException("Unable to fetch notes from remote service", e);
         }
-
-        return Optional.absent();
     }
 
     private List<Note> mergeWithSync(Note[] notes) {
@@ -217,7 +216,9 @@ public class RemoteNoteAppClient implements NoteAppClient {
     }
 
     @Override
-    public void delete(final Note note) {
+    public boolean delete(final Note note) {
+        // TODO
+        return false;
     }
 
     public void sync() throws IOException {
