@@ -88,6 +88,7 @@ public class NoteOverview extends Activity {
     private static final Logger LOGGER = AndroidLoggerFactory.getInstance("[NOTEAPP]").getLogger("NoteOverview");
 
     private static final int REQUEST_NEW_NOTE = 100;
+    private static final int REQUEST_MODIFY_NOTE = 200;
 
     private View footer;
     private ListView tagFilterList;
@@ -107,6 +108,13 @@ public class NoteOverview extends Activity {
         final SwipeDismissListViewTouchListener dismissListener = setupSwipeDismissListener();
         noteList.setOnTouchListener(dismissListener);
         noteList.setOnScrollListener(dismissListener.makeScrollListener());
+        noteList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                final Note note = (Note) adapterView.getItemAtPosition(i);
+                startModifyNote(note);
+            }
+        });
 
         setupFloatingAddButton();
 
@@ -125,16 +133,16 @@ public class NoteOverview extends Activity {
 
     private SwipeDismissListViewTouchListener setupSwipeDismissListener() {
         return new SwipeDismissListViewTouchListener(noteList, new SwipeDismissListViewTouchListener.DismissCallbacks() {
-                @Override
-                public boolean canDismiss(int position) {
-                    return true;
-                }
+            @Override
+            public boolean canDismiss(int position) {
+                return true;
+            }
 
-                @Override
-                public void onDismiss(ListView listView, int[] reverseSortedPositions) {
-                    removeNotes(reverseSortedPositions);
-                }
-            });
+            @Override
+            public void onDismiss(ListView listView, int[] reverseSortedPositions) {
+                removeNotes(reverseSortedPositions);
+            }
+        });
     }
 
     private void setupFloatingAddButton() {
@@ -200,6 +208,14 @@ public class NoteOverview extends Activity {
                             ((NoteAdapter) noteList.getAdapter()).addItem(note);
                         }
                 }
+            case REQUEST_MODIFY_NOTE:
+                switch (resultCode) {
+                    case RESULT_OK:
+                        final Note note = new CreateNoteIntent(data).getNote();
+                        if (note != null) {
+                            ((NoteAdapter) noteList.getAdapter()).replace(note);
+                        }
+                }
         }
     }
 
@@ -231,6 +247,13 @@ public class NoteOverview extends Activity {
     private void startCreateNewNote() {
         LOGGER.debug("Start creating new note");
         startActivityForResult(new CreateNoteIntent(this), REQUEST_NEW_NOTE);
+    }
+
+    private void startModifyNote(final Note note) {
+        final CreateNoteIntent intent = new CreateNoteIntent(this);
+        intent.putExtra(CreateNoteActivity.EXTRA_NOTE_ID, note.getId());
+
+        startActivityForResult(intent, REQUEST_MODIFY_NOTE);
     }
 
     private void removeNotes(final int[] positions) {
@@ -288,8 +311,7 @@ public class NoteOverview extends Activity {
             animator.alpha(100);
             animator.setDuration(3000);
             animator.start();
-        }
-        else {
+        } else {
             footer.setAlpha(100);
         }
     }
@@ -300,8 +322,7 @@ public class NoteOverview extends Activity {
             animator.alpha(0);
             animator.setDuration(3000);
             animator.start();
-        }
-        else {
+        } else {
             footer.setAlpha(0);
         }
     }

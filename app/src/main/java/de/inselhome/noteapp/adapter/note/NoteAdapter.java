@@ -8,6 +8,9 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.google.common.base.Preconditions;
+import com.google.common.base.Predicate;
+import com.google.common.collect.Collections2;
+import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 
 import org.slf4j.Logger;
@@ -80,6 +83,19 @@ public class NoteAdapter extends BaseAdapter {
             }
         });
         notifyDataSetChanged();
+    }
+
+    public void replace(final Note note) {
+        final List<Note> tempNotes = Lists.newArrayList(Collections2.filter(notes, new Predicate<Note>() {
+            @Override
+            public boolean apply(Note input) {
+                return !note.getId().equals(input.getId());
+            }
+        }));
+        tempNotes.add(note);
+
+        notes.clear();
+        notes.addAll(tempNotes);
     }
 
     @Override
