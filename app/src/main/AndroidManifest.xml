@@ -10,16 +10,16 @@
 
         <activity
             android:name=".activity.LoginActivity"
-            android:label="@string/app_name">
+            android:label="@string/app_name"></activity>
+
+        <activity
+            android:name=".activity.NoteOverview"
+            android:label="@string/noteoverview_title">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <activity
-            android:name=".activity.NoteOverview"
-            android:label="@string/noteoverview_title" />
 
         <activity
             android:name=".activity.CreateNoteActivity"

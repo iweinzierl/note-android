@@ -29,9 +29,10 @@ import de.inselhome.noteapp.NoteApp;
 import de.inselhome.noteapp.R;
 import de.inselhome.noteapp.adapter.note.NoteAdapter;
 import de.inselhome.noteapp.adapter.note.NoteFilterAdapter;
+import de.inselhome.noteapp.data.NoteAppClient;
 import de.inselhome.noteapp.domain.Note;
 import de.inselhome.noteapp.intent.CreateNoteIntent;
-import de.inselhome.noteapp.data.NoteAppClient;
+import de.inselhome.noteapp.security.Credentials;
 import de.inselhome.noteapp.task.LoadNotesTask;
 import de.inselhome.noteapp.task.OpenNoteTask;
 import de.inselhome.noteapp.task.SolveNoteTask;
@@ -87,8 +88,9 @@ public class NoteOverview extends Activity {
 
     private static final Logger LOGGER = AndroidLoggerFactory.getInstance("[NOTEAPP]").getLogger("NoteOverview");
 
-    private static final int REQUEST_NEW_NOTE = 100;
-    private static final int REQUEST_MODIFY_NOTE = 200;
+    private static final int REQUEST_LOGIN = 100;
+    private static final int REQUEST_NEW_NOTE = 200;
+    private static final int REQUEST_MODIFY_NOTE = 300;
 
     private View footer;
     private ListView tagFilterList;
@@ -161,6 +163,10 @@ public class NoteOverview extends Activity {
     protected void onStart() {
         super.onStart();
 
+        if (!isLoggedIn()) {
+            startLogin();
+        }
+
         final NoteAppClient noteAppClient = NoteApp.get(this).getNoteAppClient();
         new LoadNotesTask(new LoadNotesTask.Handler() {
             @Override
@@ -200,24 +206,43 @@ public class NoteOverview extends Activity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode) {
+            case REQUEST_LOGIN:
+                if (resultCode != RESULT_OK) {
+                    finish();
+                }
+                break;
             case REQUEST_NEW_NOTE:
-                switch (resultCode) {
-                    case RESULT_OK:
-                        final Note note = new CreateNoteIntent(data).getNote();
-                        if (note != null) {
-                            ((NoteAdapter) noteList.getAdapter()).addItem(note);
-                        }
+                if (resultCode == RESULT_OK) {
+                    final Note note = new CreateNoteIntent(data).getNote();
+                    if (note != null) {
+                        ((NoteAdapter) noteList.getAdapter()).addItem(note);
+                    }
                 }
+                break;
             case REQUEST_MODIFY_NOTE:
-                switch (resultCode) {
-                    case RESULT_OK:
-                        final Note note = new CreateNoteIntent(data).getNote();
-                        if (note != null) {
-                            ((NoteAdapter) noteList.getAdapter()).replace(note);
-                        }
+                if (resultCode == RESULT_OK) {
+                    final Note note = new CreateNoteIntent(data).getNote();
+                    if (note != null) {
+                        ((NoteAdapter) noteList.getAdapter()).replace(note);
+                    }
                 }
+                break;
         }
     }
+
+    private boolean isLoggedIn() {
+        final NoteApp app = NoteApp.get(this);
+        final Credentials credentials = app.loadCredentials();
+
+        if (credentials != null) {
+            app.getNoteAppClient().setUsername(credentials.getUsername());
+            app.getNoteAppClient().setPassword(credentials.getPassword());
+            return true;
+        } else {
+            return false;
+        }
+    }
+
 
     private void setNotes(List<Note> notes) {
         noteList.setAdapter(new NoteAdapter(this, notes));
@@ -244,8 +269,11 @@ public class NoteOverview extends Activity {
         LOGGER.info("Created {} filters in total", tagFilterAdapter.getCount() + peopleFilterAdapter.getCount());
     }
 
+    private void startLogin() {
+        startActivityForResult(new Intent(this, LoginActivity.class), REQUEST_LOGIN);
+    }
+
     private void startCreateNewNote() {
-        LOGGER.debug("Start creating new note");
         startActivityForResult(new CreateNoteIntent(this), REQUEST_NEW_NOTE);
     }
 

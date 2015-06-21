@@ -18,9 +18,9 @@
 
     <ScrollView
         android:id="@+id/login_form"
-        android:layout_above="@id/footer"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_above="@id/footer">
 
         <LinearLayout
             android:id="@+id/username_login_form"
@@ -40,7 +40,7 @@
                 android:inputType="textEmailAddress"
                 android:maxLines="1"
                 android:padding="5dp"
-                android:singleLine="true"/>
+                android:singleLine="true" />
 
             <EditText
                 android:id="@+id/password"
@@ -55,17 +55,6 @@
                 android:maxLines="1"
                 android:padding="5dp"
                 android:singleLine="true" />
-
-            <CheckBox
-                android:id="@+id/save_login"
-                style="@style/AppTheme.Label"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="25dp"
-                android:layout_marginRight="25dp"
-                android:layout_marginTop="15dp"
-                android:padding="5dp"
-                android:text="@string/prompt_save_login" />
 
         </LinearLayout>
     </ScrollView>

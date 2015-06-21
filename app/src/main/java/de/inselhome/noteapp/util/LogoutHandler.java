@@ -1,7 +1,10 @@
 package de.inselhome.noteapp.util;
 
 import android.app.Activity;
+import android.content.Intent;
+
 import de.inselhome.noteapp.NoteApp;
+import de.inselhome.noteapp.activity.LoginActivity;
 
 /**
  * @author iweinzierl
@@ -16,6 +19,6 @@ public class LogoutHandler {
 
     public void logout() {
         NoteApp.get(activity).deleteCredentials();
-        activity.finish();
+        activity.startActivity(new Intent(activity, LoginActivity.class));
     }
 }

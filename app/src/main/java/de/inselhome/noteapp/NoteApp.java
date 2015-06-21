@@ -38,7 +38,7 @@ public class NoteApp extends Application {
             return (NoteApp) application;
         }
 
-        return null;
+        throw new RuntimeException("Application is no instance of NoteApp");
     }
 
     public NoteAppClient getNoteAppClient() {
