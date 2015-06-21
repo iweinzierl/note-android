@@ -2,8 +2,12 @@ package de.inselhome.noteapp.data.impl;
 
 import android.content.Context;
 
+import com.google.common.base.Predicate;
 import com.google.common.base.Strings;
+import com.google.common.collect.Collections2;
 import com.google.common.collect.Lists;
+
+import org.springframework.util.StringUtils;
 
 import java.io.File;
 import java.io.IOException;
@@ -32,7 +36,15 @@ public class FilePersistenceProvider implements NotePersistenceProvider {
     public Note save(final Note note) throws PersistenceException {
         prepareNote(note);
 
-        final List<Note> persistedNotes = list();
+        List<Note> persistedNotes = list();
+        if (!Strings.isNullOrEmpty(note.getId())) {
+            persistedNotes = Lists.newArrayList(Collections2.filter(persistedNotes, new Predicate<Note>() {
+                @Override
+                public boolean apply(Note input) {
+                    return !note.getId().equals(input.getId());
+                }
+            }));
+        }
         persistedNotes.add(note);
 
         if (!FileUtils.toFile(getNoteFile(), JsonUtils.toJson(persistedNotes))) {

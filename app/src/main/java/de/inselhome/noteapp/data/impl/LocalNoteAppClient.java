@@ -62,12 +62,21 @@ public class LocalNoteAppClient implements NoteAppClient {
     }
 
     @Override
-    public Optional<Note> update(Note note) throws PersistenceException {
+    public Optional<Note> update(final Note note) throws PersistenceException {
         if (Strings.isNullOrEmpty(note.getId())) {
             return Optional.absent();
         } else {
             final Note updated = persistenceProvider.save(note);
+
+            cache = Lists.newArrayList(Collections2.filter(cache, new Predicate<Note>() {
+                @Override
+                public boolean apply(Note input) {
+                    return !note.getId().equals(input.getId());
+                }
+            }));
+
             cache.add(updated);
+
             return Optional.of(updated);
         }
     }
