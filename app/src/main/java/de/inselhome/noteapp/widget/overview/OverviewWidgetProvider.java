@@ -14,6 +14,7 @@ import org.slf4j.Logger;
 import de.inselhome.android.logging.AndroidLoggerFactory;
 import de.inselhome.noteapp.R;
 import de.inselhome.noteapp.activity.CreateNoteActivity;
+import de.inselhome.noteapp.activity.NoteOverview;
 
 public class OverviewWidgetProvider extends AppWidgetProvider {
 
@@ -38,9 +39,13 @@ public class OverviewWidgetProvider extends AppWidgetProvider {
             final PendingIntent pendingIntent = PendingIntent.getActivities(context, 0, new Intent[]{intent}, 0);
             rv.setOnClickPendingIntent(R.id.add, pendingIntent);
 
-            final Intent overviewIntent = new Intent(context, CreateNoteActivity.class);
-            final PendingIntent pendingOverviewIntent = PendingIntent.getActivities(context, 0, new Intent[] { overviewIntent}, 0);
-            rv.setPendingIntentTemplate(R.id.list, pendingOverviewIntent);
+            final Intent overviewIntent = new Intent(context, NoteOverview.class);
+            final PendingIntent overviewPendingIntent = PendingIntent.getActivities(context, 0, new Intent[]{overviewIntent}, 0);
+            rv.setOnClickPendingIntent(R.id.control_header, overviewPendingIntent);
+
+            final Intent modifyIntent = new Intent(context, CreateNoteActivity.class);
+            final PendingIntent pendingModifyIntent = PendingIntent.getActivities(context, 0, new Intent[] { modifyIntent}, 0);
+            rv.setPendingIntentTemplate(R.id.list, pendingModifyIntent);
 
             appWidgetManager.updateAppWidget(appWidgetId, rv);
         }
