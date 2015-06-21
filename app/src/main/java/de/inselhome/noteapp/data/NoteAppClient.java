@@ -22,9 +22,9 @@ public interface NoteAppClient {
 
     Optional<Note> update(Note note) throws PersistenceException;
 
-    boolean solve(String noteId);
+    boolean solve(String noteId) throws PersistenceException;
 
-    boolean open(String noteId);
+    boolean open(String noteId) throws PersistenceException;
 
     boolean delete(Note note);
 }

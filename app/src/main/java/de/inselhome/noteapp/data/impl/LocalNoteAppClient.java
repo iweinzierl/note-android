@@ -1,6 +1,7 @@
 package de.inselhome.noteapp.data.impl;
 
 import android.content.Context;
+import android.content.Intent;
 
 import com.google.common.base.Optional;
 import com.google.common.base.Predicate;
@@ -16,6 +17,7 @@ import de.inselhome.noteapp.data.NoteAppClient;
 import de.inselhome.noteapp.data.NotePersistenceProvider;
 import de.inselhome.noteapp.domain.Note;
 import de.inselhome.noteapp.exception.PersistenceException;
+import de.inselhome.noteapp.widget.overview.OverviewWidgetProvider;
 
 public class LocalNoteAppClient implements NoteAppClient {
 
@@ -71,7 +73,7 @@ public class LocalNoteAppClient implements NoteAppClient {
     }
 
     @Override
-    public boolean solve(final String noteId) {
+    public boolean solve(final String noteId) throws PersistenceException {
         if (Strings.isNullOrEmpty(noteId)) {
             return false;
         } else {
@@ -82,12 +84,13 @@ public class LocalNoteAppClient implements NoteAppClient {
                 }
             });
             note.setSolvedAt(new Date());
+            persistenceProvider.save(note);
             return true;
         }
     }
 
     @Override
-    public boolean open(final String noteId) {
+    public boolean open(final String noteId) throws PersistenceException {
         if (Strings.isNullOrEmpty(noteId)) {
             return false;
         } else {
@@ -98,6 +101,7 @@ public class LocalNoteAppClient implements NoteAppClient {
                 }
             });
             note.setSolvedAt(null);
+            persistenceProvider.save(note);
             return true;
         }
     }
@@ -110,6 +114,7 @@ public class LocalNoteAppClient implements NoteAppClient {
 
     public void replace(final List<Note> notes) throws PersistenceException {
         persistenceProvider.replace(notes);
+        context.sendBroadcast(new Intent(OverviewWidgetProvider.UPDATE_ACTION));
     }
 
     private List<Note> openList() {

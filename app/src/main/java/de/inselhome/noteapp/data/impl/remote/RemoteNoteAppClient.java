@@ -168,7 +168,7 @@ public class RemoteNoteAppClient implements NoteAppClient {
     }
 
     @Override
-    public boolean solve(final String noteId) {
+    public boolean solve(final String noteId) throws PersistenceException {
         LOGGER.info("Mark note '{}' as solved in backend", noteId);
 
         try {
@@ -192,7 +192,7 @@ public class RemoteNoteAppClient implements NoteAppClient {
     }
 
     @Override
-    public boolean open(final String noteId) {
+    public boolean open(final String noteId) throws PersistenceException {
         LOGGER.info("Open solved note '{}' in backend", noteId);
 
         try {

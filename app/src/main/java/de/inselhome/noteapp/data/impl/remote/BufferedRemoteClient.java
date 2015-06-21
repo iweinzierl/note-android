@@ -75,7 +75,7 @@ public class BufferedRemoteClient extends RemoteNoteAppClient {
     }
 
     @Override
-    public boolean solve(String noteId) {
+    public boolean solve(String noteId) throws PersistenceException {
         final boolean solved = super.solve(noteId);
 
         if (solved) {
@@ -86,7 +86,7 @@ public class BufferedRemoteClient extends RemoteNoteAppClient {
     }
 
     @Override
-    public boolean open(String noteId) {
+    public boolean open(String noteId) throws PersistenceException {
         final boolean opened = super.open(noteId);
 
         if (opened) {
